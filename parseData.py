@@ -74,6 +74,8 @@ def loadSites(sites: {}, filename: str, startYear: int, endYear: int,
         site = fields[siteIndex]
         month = int(fields[monthIndex])
         value = float(fields[valueIndex])
+        if value == 0:
+            continue
         latitude = float(fields[latitudeIndex])
         if latitude < minLatitude or latitude > maxLatitude:
             continue

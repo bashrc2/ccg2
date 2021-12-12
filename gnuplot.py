@@ -69,7 +69,7 @@ def plotTimeSeries(series: {}, title: str,
         str(indent) + ", screen " + str(vpos) + "\n" + \
         "set yrange [" + str(minimumValue) + ":" + \
         str(maximumValue) + "]\n" + \
-        "set xrange [" + str(minYear) + ":" + str(maxYear) + "]\n" + \
+        "set xrange [" + str(minYear) + ":" + str(maxYear + 1) + "]\n" + \
         "set lmargin 9\n" + \
         "set rmargin 2\n" + \
         "set xlabel \"" + Xlabel + "\"\n" + \
