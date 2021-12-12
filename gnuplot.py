@@ -172,31 +172,33 @@ def plotTimeSeriesAnnualChange(series: {}, title: str,
     minimumValue = 99999999
     maximumValue = -99999999
     with open(dataFilename, 'w+') as fp:
-        prev_av = 0
         for year in range(startYear - 5, endYear + 1, 1):
             if not series.get(year):
+                continue
+            if not series.get(year - 1):
                 continue
             av = 0
             hits = 0
             for monthIndex in range(12):
                 if series[year][monthIndex] > 0:
-                    hits += 1
-                    av += series[year][monthIndex]
+                    if series[year - 1][monthIndex] > 0:
+                        hits += 1
+                        av += \
+                            series[year][monthIndex] - \
+                            series[year - 1][monthIndex]
             if hits > 0:
                 av /= hits
-                if av > 0 and prev_av > 0:
-                    change = av - prev_av
-                    if change < minimumValue:
-                        minimumValue = change
-                    if change > maximumValue:
-                        maximumValue = change
-                    if year >= startYear:
-                        if year < minYear:
-                            minYear = year
-                        if year > maxYear:
-                            maxYear = year
-                        fp.write(str(year) + "    " + str(change) + '\n')
-            prev_av = av
+                change = av
+                if change < minimumValue:
+                    minimumValue = change
+                if change > maximumValue:
+                    maximumValue = change
+                if year >= startYear:
+                    if year < minYear:
+                        minYear = year
+                    if year > maxYear:
+                        maxYear = year
+                    fp.write(str(year) + "    " + str(change) + '\n')
     title += " " + str(minYear) + ' - ' + str(maxYear) + ' Annual Change'
     script = \
         "reset\n" + \
