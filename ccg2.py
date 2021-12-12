@@ -14,6 +14,7 @@ from parseData import loadSites
 from timeseries import averageMonthlyValues
 from timeseries import getTimeSeries
 from gnuplot import plotTimeSeries
+from kml import saveSitesAsKML
 from tests import runAllTests
 
 
@@ -86,6 +87,7 @@ if __name__ == "__main__":
         break
     averageMonthlyValues(sites)
     series = getTimeSeries(sites)
+    saveSitesAsKML(sites, 'ccg.kml')
     plotTimeSeries(series, args.title, args.startYear, args.endYear)
     print('Done')
     sys.exit()

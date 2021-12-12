@@ -11,5 +11,5 @@ wget https://gml.noaa.gov/aftp/data/trace_gases/co2/flask/co2_flask_surface_2021
 tar -xzvf co2_flask_surface_2021-07-30.tar.gz
 cd ..
 python3 ccg2.py
-ls *.jpg
+ls *.jpg *.kml
 ```
