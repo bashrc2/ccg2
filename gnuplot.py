@@ -57,7 +57,8 @@ def plotTimeSeries(series: {}, title: str,
                     maxYear = year
                 for monthIndex in range(12):
                     fraction = year + (float(monthIndex) / 12)
-                    fp.write(str(fraction) + "    " + str(series[year][monthIndex]) + '\n')
+                    fp.write(str(fraction) + "    " +
+                             str(series[year][monthIndex]) + '\n')
     title += " " + str(minYear) + ' - ' + str(maxYear)
     script = \
         "reset\n" + \

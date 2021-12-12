@@ -61,7 +61,14 @@ parser.add_argument('--maxalt', dest="maxAltitude", type=float,
 parser.add_argument('--title', dest="title", type=str,
                     default="Atmospheric CO2",
                     help='Title of the graph')
+parser.add_argument("--tests", type=str2bool, nargs='?',
+                    const=True, default=False,
+                    help="Run unit tests")
 args = parser.parse_args()
+
+if args.tests:
+    runAllTests()
+    sys.exit()
 
 
 if __name__ == "__main__":

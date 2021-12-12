@@ -83,7 +83,7 @@ def loadSites(sites: {}, filename: str, startYear: int, endYear: int,
                 continue
         else:
             if longitude < maxLongitude and longitude > minLongitude:
-                continue        
+                continue
         altitude = float(fields[altitudeIndex])
         if altitude < minAltitude or altitude > maxAltitude:
             continue

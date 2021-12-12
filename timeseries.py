@@ -44,7 +44,8 @@ def getTimeSeries(sites: {}) -> {}:
     for year, item in series.items():
         for monthIndex in range(12):
             if series[year]['hits'][monthIndex] > 0:
-                series[year]['month'][monthIndex] /= series[year]['hits'][monthIndex]
+                series[year]['month'][monthIndex] /= \
+                    series[year]['hits'][monthIndex]
         months = series[year]['month'].copy()
         series[year] = months
     return series
