@@ -35,7 +35,9 @@ def plotTimeSeries(series: {}, title: str,
 
     subtitle = "Source https://gml.noaa.gov/dv/data.html"
     Xlabel = 'Year'
-    Ylabel = 'Density (ppm)'
+    Ylabel = 'Parts Per Million'
+    if 'CH4' in title:
+        Ylabel = 'Parts Per Billion'
     indent = 0.39
     vpos = 0.94
     imageWidth = 1000
