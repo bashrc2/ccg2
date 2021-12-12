@@ -26,6 +26,7 @@ def _getFieldIndex(fieldnames: [], name: str) -> int:
             return i
     return -1
 
+
 def loadSites(sites: {}, filename: str, startYear: int, endYear: int,
               minLatitude: float, maxLatitude: float,
               minLongitude: float, maxLongitude: float,
