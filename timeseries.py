@@ -8,44 +8,44 @@ __status__ = "Production"
 __module_group__ = "Commandline Interface"
 
 
-def averageMonthlyValues(sites: {}) -> None:
+def average_monthly_values(sites: {}) -> None:
     """Averages monthly values for each site
     """
-    for site, item in sites.items():
-        for year, yearItem in item['data'].items():
-            for monthIdx in range(12):
-                hits = yearItem['hits'][monthIdx]
+    for _, item in sites.items():
+        for year, year_item in item['data'].items():
+            for month_idx in range(12):
+                hits = year_item['hits'][month_idx]
                 if hits > 0:
-                    yearItem['month'][monthIdx] /= hits
-            months = yearItem['month'].copy()
+                    year_item['month'][month_idx] /= hits
+            months = year_item['month'].copy()
             item['data'][year] = months
 
 
-def getTimeSeries(sites: {}) -> {}:
+def get_time_series(sites: {}) -> {}:
     """Returns the overall time series for all sites
     """
     series = {}
 
     # sum the month values
-    for site, item in sites.items():
-        for year, monthsList in item['data'].items():
+    for _, item in sites.items():
+        for year, months_list in item['data'].items():
             if not series.get(year):
                 series[year] = {
                     "month": [0] * 12,
                     "hits": [0] * 12
                 }
-            for monthIndex in range(12):
-                if monthsList[monthIndex] == 0:
+            for month_index in range(12):
+                if months_list[month_index] == 0:
                     continue
-                series[year]['month'][monthIndex] += monthsList[monthIndex]
-                series[year]['hits'][monthIndex] += 1
+                series[year]['month'][month_index] += months_list[month_index]
+                series[year]['hits'][month_index] += 1
 
     # average the months
     for year, item in series.items():
-        for monthIndex in range(12):
-            if series[year]['hits'][monthIndex] > 0:
-                series[year]['month'][monthIndex] /= \
-                    series[year]['hits'][monthIndex]
+        for month_index in range(12):
+            if series[year]['hits'][month_index] > 0:
+                series[year]['month'][month_index] /= \
+                    series[year]['hits'][month_index]
         months = series[year]['month'].copy()
         series[year] = months
     return series

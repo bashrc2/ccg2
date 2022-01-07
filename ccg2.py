@@ -10,27 +10,26 @@ __module_group__ = "Commandline Interface"
 import os
 import sys
 import argparse
-from parseData import loadSites
-from timeseries import averageMonthlyValues
-from timeseries import getTimeSeries
-from gnuplot import plotTimeSeries
-from gnuplot import plotTimeSeriesAnnual
-from gnuplot import plotTimeSeriesAnnualChange
-from kml import saveSitesAsKML
-from tests import runAllTests
+from parseData import load_sites
+from timeseries import average_monthly_values
+from timeseries import get_time_series
+from gnuplot import plot_time_series
+from gnuplot import plot_time_series_annual
+from gnuplot import plot_time_series_annual_change
+from kml import save_sites_as_kml
+from tests import run_all_tests
 
 
-def str2bool(v) -> bool:
+def str2bool(value) -> bool:
     """Returns true if the given value is a boolean
     """
-    if isinstance(v, bool):
-        return v
-    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+    if isinstance(value, bool):
+        return value
+    if value.lower() in ('yes', 'true', 't', 'y', '1'):
         return True
-    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+    if value.lower() in ('no', 'false', 'f', 'n', '0'):
         return False
-    else:
-        raise argparse.ArgumentTypeError('Boolean value expected.')
+    raise argparse.ArgumentTypeError('Boolean value expected.')
 
 
 parser = argparse.ArgumentParser(description='ccg2')
@@ -70,7 +69,7 @@ parser.add_argument("--tests", type=str2bool, nargs='?',
 args = parser.parse_args()
 
 if args.tests:
-    runAllTests()
+    run_all_tests()
     sys.exit()
 
 
@@ -82,17 +81,17 @@ if __name__ == "__main__":
             if not f.endswith('event.txt'):
                 continue
             filename = args.dataDir + '/' + f
-            loadSites(sites, filename, args.startYear, args.endYear,
-                      args.minLatitude, args.maxLatitude,
-                      args.minLongitude, args.maxLongitude,
-                      args.minAltitude, args.maxAltitude)
+            load_sites(sites, filename, args.startYear, args.endYear,
+                       args.minLatitude, args.maxLatitude,
+                       args.minLongitude, args.maxLongitude,
+                       args.minAltitude, args.maxAltitude)
         break
-    averageMonthlyValues(sites)
-    series = getTimeSeries(sites)
-    saveSitesAsKML(sites, 'ccg.kml')
-    plotTimeSeries(series, args.title, args.startYear, args.endYear)
-    plotTimeSeriesAnnual(series, args.title, args.startYear, args.endYear)
-    plotTimeSeriesAnnualChange(series, args.title,
-                               args.startYear, args.endYear)
+    average_monthly_values(sites)
+    series = get_time_series(sites)
+    save_sites_as_kml(sites, 'ccg.kml')
+    plot_time_series(series, args.title, args.startYear, args.endYear)
+    plot_time_series_annual(series, args.title, args.startYear, args.endYear)
+    plot_time_series_annual_change(series, args.title,
+                                   args.startYear, args.endYear)
     print('Done')
     sys.exit()

@@ -8,15 +8,15 @@ __status__ = "Production"
 __module_group__ = "Commandline Interface"
 
 
-def saveSitesAsKML(sites: {}, filename: str) -> None:
+def save_sites_as_kml(sites: {}, filename: str) -> None:
     """Save sites in KML format for visualization
     """
-    kmlStr = \
+    kml_str = \
         "<?xml version=\"1.0\" encoding='UTF-8'?>\n" + \
         "<kml xmlns=\"http://www.opengis.net/kml/2.2\">\n" + \
         "<Document>\n"
     for site, item in sites.items():
-        kmlStr += \
+        kml_str += \
             "  <Placemark>\n" + \
             "    <name>" + site + "</name>\n" + \
             "    <description>" + str(item['latitude']) + \
@@ -27,8 +27,8 @@ def saveSitesAsKML(sites: {}, filename: str) -> None:
             "</coordinates>\n" + \
             "    </Point>\n" + \
             "  </Placemark>\n"
-    kmlStr += \
+    kml_str += \
         "</Document>\n" + \
         "</kml>\n"
-    with open(filename, 'w+') as fp:
-        fp.write(kmlStr)
+    with open(filename, 'w+') as fp_kml:
+        fp_kml.write(kml_str)

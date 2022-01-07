@@ -8,51 +8,51 @@ __status__ = "Production"
 __module_group__ = "Commandline Interface"
 
 
-def _getFieldNames(lines: []) -> []:
+def _get_field_names(lines: []) -> []:
     """Returns a list of field names
     """
     for line in lines:
         if 'data_fields:' in line:
-            fieldsStr = line.split('data_fields:')[1].strip()
-            return fieldsStr.split(' ')
+            fields_str = line.split('data_fields:')[1].strip()
+            return fields_str.split(' ')
     return None
 
 
-def _getFieldIndex(fieldnames: [], name: str) -> int:
+def _get_field_index(fieldnames: [], name: str) -> int:
     """Returns the index with the given field name
     """
-    for i in range(len(fieldnames)):
-        if name in fieldnames[i]:
-            return i
+    for idx in range(len(fieldnames)):
+        if name in fieldnames[idx]:
+            return idx
     return -1
 
 
-def loadSites(sites: {}, filename: str, startYear: int, endYear: int,
-              minLatitude: float, maxLatitude: float,
-              minLongitude: float, maxLongitude: float,
-              minAltitude: float, maxAltitude: float) -> bool:
+def load_sites(sites: {}, filename: str, start_year: int, end_year: int,
+               min_latitude: float, max_latitude: float,
+               min_longitude: float, max_longitude: float,
+               min_altitude: float, max_altitude: float) -> bool:
     """Loads sites from file
     """
     lines = []
     try:
-        with open(filename, 'r') as fp:
-            lines = fp.readlines()
+        with open(filename, 'r') as fp_load:
+            lines = fp_load.readlines()
     except OSError:
         print('Unable to open ' + filename)
         return False
 
-    fieldnames = _getFieldNames(lines)
+    fieldnames = _get_field_names(lines)
     if not fieldnames:
         print('No fieldnames found in ' + filename)
         return False
 
-    siteIndex = _getFieldIndex(fieldnames, 'site')
-    yearIndex = _getFieldIndex(fieldnames, 'year')
-    monthIndex = _getFieldIndex(fieldnames, 'month')
-    valueIndex = _getFieldIndex(fieldnames, 'value')
-    latitudeIndex = _getFieldIndex(fieldnames, 'latitude')
-    longitudeIndex = _getFieldIndex(fieldnames, 'longitude')
-    altitudeIndex = _getFieldIndex(fieldnames, 'altitude')
+    site_index = _get_field_index(fieldnames, 'site')
+    year_index = _get_field_index(fieldnames, 'year')
+    month_index = _get_field_index(fieldnames, 'month')
+    value_index = _get_field_index(fieldnames, 'value')
+    latitude_index = _get_field_index(fieldnames, 'latitude')
+    longitude_index = _get_field_index(fieldnames, 'longitude')
+    altitude_index = _get_field_index(fieldnames, 'altitude')
 
     for line in lines:
         if line.startswith('#'):
@@ -60,34 +60,34 @@ def loadSites(sites: {}, filename: str, startYear: int, endYear: int,
         while '  ' in line:
             line = line.replace('  ', ' ')
         fields = line.replace('\n', ' ').split(' ')
-        if not fields[yearIndex]:
+        if not fields[year_index]:
             continue
-        year = int(fields[yearIndex])
-        if year < startYear:
+        year = int(fields[year_index])
+        if year < start_year:
             continue
-        if year > endYear:
+        if year > end_year:
             continue
-        if not fields[monthIndex]:
+        if not fields[month_index]:
             continue
-        if not fields[valueIndex]:
+        if not fields[value_index]:
             continue
-        site = fields[siteIndex]
-        month = int(fields[monthIndex])
-        value = float(fields[valueIndex])
+        site = fields[site_index]
+        month = int(fields[month_index])
+        value = float(fields[value_index])
         if value == 0:
             continue
-        latitude = float(fields[latitudeIndex])
-        if latitude < minLatitude or latitude > maxLatitude:
+        latitude = float(fields[latitude_index])
+        if latitude < min_latitude or latitude > max_latitude:
             continue
-        longitude = float(fields[longitudeIndex])
-        if maxLongitude > minLongitude:
-            if longitude < minLongitude or longitude > maxLongitude:
+        longitude = float(fields[longitude_index])
+        if max_longitude > min_longitude:
+            if longitude < min_longitude or longitude > max_longitude:
                 continue
         else:
-            if longitude < maxLongitude and longitude > minLongitude:
+            if longitude < max_longitude and longitude > min_longitude:
                 continue
-        altitude = float(fields[altitudeIndex])
-        if altitude < minAltitude or altitude > maxAltitude:
+        altitude = float(fields[altitude_index])
+        if altitude < min_altitude or altitude > max_altitude:
             continue
         if not sites.get(site):
             sites[site] = {
