@@ -12,9 +12,12 @@ def _get_field_names(lines: []) -> []:
     """Returns a list of field names
     """
     for line in lines:
-        if 'data_fields:' in line:
-            fields_str = line.split('data_fields:')[1].strip()
-            return fields_str.split(' ')
+        if 'data_fields:' in line or \
+           'year month day hour minute second' in line:
+            fields_str = line
+            if 'data_fields:' in line:
+                fields_str = line.split('data_fields:')[1]
+            return fields_str.strip().split(' ')
     return None
 
 
@@ -47,6 +50,8 @@ def load_sites(sites: {}, filename: str, start_year: int, end_year: int,
         return False
 
     site_index = _get_field_index(fieldnames, 'site')
+    if site_index == -1:
+        site_index = _get_field_index(fieldnames, 'site_code')
     year_index = _get_field_index(fieldnames, 'year')
     month_index = _get_field_index(fieldnames, 'month')
     value_index = _get_field_index(fieldnames, 'value')
@@ -56,6 +61,8 @@ def load_sites(sites: {}, filename: str, start_year: int, end_year: int,
 
     for line in lines:
         if line.startswith('#'):
+            continue
+        if 'year month day hour minute second' in line:
             continue
         while '  ' in line:
             line = line.replace('  ', ' ')

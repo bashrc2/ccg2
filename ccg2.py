@@ -34,7 +34,7 @@ def str2bool(value) -> bool:
 
 parser = argparse.ArgumentParser(description='ccg2')
 parser.add_argument('--dir', '-d', dest="dataDir", type=str,
-                    default='data/surface',
+                    default='data/surface_co2',
                     help='Directory for data')
 parser.add_argument('--startyear', dest="startYear", type=int,
                     default=2010,
